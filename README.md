@@ -68,7 +68,7 @@ In the Player.gd script, on line 25, add the following:
 
 ```
 
-Test the program to make sure the player can now walk.
+Test the program to make sure the player can now animate while walking.
 
 ---
 
