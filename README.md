@@ -7,7 +7,68 @@ Fork this repository. When that process has completed, make sure that the top of
 
 Clone the repository to a Local Path on your computer.
 
+In the Blender folder, you will see two .blend files. We will use these files to practice adding armatures to models.
+
+---
+
+In an effort to make this exercise more manageable, I will offer extra credit for adding an armature to RagDoll.blend, following the instruction/example found at [https://youtu.be/YZikII-uSis](https://youtu.be/YZikII-uSis). It is a little difficult to follow, so take it slowly and pause frequently. Export the model as a glTF 2.0 file: Assets/RagDoll.glb and import it as a scene into Godot, and set the translation.x = 8.
+
+---
+
+Open Blender/Rain.blend in Blender. Under Edit->Preferences, Add-ons, make sure Rigging: Rigify is selected.
+
+Press shift-A to add a element. Select Armature->Human (Meta-rig).
+
+In the Transform Pivot Point menu (in the middle of the tool bar), select 3D Cursor.
+
+Select the Armature. Go into Edit mode (by pressing Tab) and press S to scale. Match the eyes of the armature to the model.
+
+In the Options menu (right side of the toolbar), check X-Axis Mirror.
+
+Carefully, and methodically, line up the armature inside the model. The hands and fingers will require the most effort. Wireframe mode will probably help.
+
+When you are done, go to Object mode. In the Scene panel, select the GEO_ model pieces (holding shift or Command), until they are all selected. Finally, select metarig. Then press ctrl-P. Select Armature Deform->With Automatic Weights.
+
+You can check that the bones are connected to the model by entering Pose Mode and grabbing (G) the bones. The model should deform accordingly.
+
+Export the model as a .glTF 2.0 file: /Assets/Rain.glb
+
+---
+
 Open Godot. Import the project.godot file and open the "Animation" project.
+
+Right-click on the Game node and Instance Child Scene. Select Assets/Rain.glb. Translate the new Rain node to (-8,0,0) and scale to (2.5,2.5,2.5)
+
+Now, we will work on the animation of the Player node. Open the Player scene.
+
+In the AnimationPlayer node, make sure the Idle and Walk animations are both set to AnimationLooping.
+
+Right-click on the Player node and Add Child Node. Select AnimationTree. Select the AnimationTree node; in the Inspector->Tree Root, select New AnimationNodeBlendTree. Under Anim Player, select the AnimationPlayer. Set Active to On.
+
+You will see a new AnimationTree panel appear at the bottom of the window. Drag the Output node to the right side of the workspace.
+
+Add Node, and select Animation. Create a second Animation Node, and a Blend2 Node. Connect the Out ports from the two Animation nodes to the in and blend ports on the Blend2 node. Connect the out port from teh Blend2 node to the Output node.
+
+Rename the Blend2 node Idle_Run.
+
+In the first Animation node, call the animation Idle, and select Idle from the film cannister menu.
+
+In the first Animation node, call the animation Walk, and select Walk from the film cannister menu.
+
+As you adjust the slider, you should see the Walk animation become more or less dramatic.
+
+Finally, select the characterMedium. In the Inspector, select Material->0, and select New Spatial Material. Edit that material. Under Albedo, Texture, add the res://Assets/alienB.png texture.
+
+Save the Player scene.
+
+In the Player.gd script, on line 25, add the following:
+
+```
+	$AnimationTree.set("parameters/Idle_Walk/blend_amount", current_speed/max_speed) 
+
+```
+
+Test the program to make sure the player can now walk.
 
 ---
 
@@ -23,10 +84,13 @@ Exercise for MSCH-C220, 5 November 2020
 An opportunity to play with animating 3D humanoid characters
 
 ## Implementation
-Built using Godot 3.2.2
+Built using Blender 2.90.1, Godot 3.2.2
 
 ## References
-None
+[Kenney.nl Animation Characters](https://kenney.nl/assets/animated-characters-2)
+[Rain v2.0 Blender model](https://cloud.blender.org/p/characters/5f04a68bb5f1a2612f7b29da)
+[Godot tutorial: Create a basic ragdoll in 5 minutes](https://youtu.be/YZikII-uSis)
+[Godot ThirdPerson Player Animation](https://youtu.be/msZw59Iln74)
 
 ## Future Development
 None
